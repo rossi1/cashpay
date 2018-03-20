@@ -14,6 +14,6 @@ class Jwt:
                     'exp': timezone.now() + time_phrase
         }
         return jwt.encode(payload, settings.SECRET_KEY, algorithm=self.algorithm)
-    
+
     def decode_token(self, token):
         return jwt.decode(token, settings.SECRET_KEY, algorithm=self.algorithm)

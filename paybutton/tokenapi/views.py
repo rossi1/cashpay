@@ -36,7 +36,9 @@ class Login(APIView):
     def post(self, request):
         """
         POST:
-        Param: usr, pwd
+        Param:
+        usr : username
+        pwd : passphrase
 
         Action: login users successfully and returns them to the home view
 
@@ -47,7 +49,7 @@ class Login(APIView):
             usr = serial.validated_data['usr']
             pwd = serial.validated_data['pwd']
             user = request_url(usr, pwd, request.user_agent.browser[0])
-            if user.json()['res']:
+            if user.json().get('res'):
                 get_user = user.json()['user']
                 try:
                     merchant_data = MerchantStore.token.get(usr__iexact=get_user)
@@ -61,6 +63,10 @@ class Login(APIView):
                     request.session['username'] = get_user
                     return Response({'detail': 'success', 'next_url': reverse_lazy('index')},
                                     status=status.HTTP_200_OK)
+
+            elif user.status_code == 400:
+                return Response({'detail': 'Invalid Credentails'}, status=status.HTTP_400_BAD_REQUEST)
+
             else:
                 raise exceptions.APIException('Invalid Credentails')
         return Response({'detail': 'failed'}, status=status.HTTP_400_BAD_REQUEST)
@@ -75,7 +81,9 @@ class RequestToken(APIView):
     def post(self, request):
         """
         POST:
-        param: callback_url
+
+        param:
+        url: the callback url
         returns: the api_key and token
         """
 
