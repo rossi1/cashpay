@@ -24,7 +24,7 @@ class Index(APIView):
         GET
         return a response to the logged in users
         """
-        return Response('yes')
+        return Response({'current_logged_in as': request.user})
 
 
 # noinspection PyUnusedLocal
@@ -67,9 +67,7 @@ class Login(APIView):
             elif user.status_code == 400:
                 return Response({'detail': 'Invalid Credentails'}, status=status.HTTP_400_BAD_REQUEST)
 
-            else:
-                raise exceptions.APIException('Invalid Credentails')
-        return Response({'detail': 'failed'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RequestToken(APIView):
