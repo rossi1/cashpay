@@ -43,7 +43,7 @@ psycopg2==2.7.4
 pyasn1==0.4.2
 pycparser==2.18
 Pygments==2.2.0
-PyJWT==1.6.0
+PyJWT==2.4.0
 pylint==1.8.1
 python-dateutil==2.6.1
 python-twitter==3.4
